@@ -66574,7 +66574,13 @@ define(__m[106/*vs/editor/browser/standalone/simpleServices*/], __M([1/*require*
                 _this.doOpenEditor(diffEditor.getModifiedEditor(), typedData)); }));
         };
         SimpleEditorService.prototype.doOpenEditor = function (editor, data) {
+//myedit
+var modelURI = editor.model.uri.toString();
             var model = this.findModel(editor, data);
+//myedit          
+if (modelURI !== data.resource.toString()) {
+    editor.setModel(model);
+}
             if (!model) {
                 if (data.resource) {
                     if (this.openEditorDelegate) {
@@ -66612,7 +66618,9 @@ define(__m[106/*vs/editor/browser/standalone/simpleServices*/], __M([1/*require*
         SimpleEditorService.prototype.findModel = function (editor, data) {
             var model = editor.getModel();
             if (model.uri.toString() !== data.resource.toString()) {
-                return null;
+//myedit
+model =  monaco.editor.getModel(data.resource.toString());
+                //return null;
             }
             return model;
         };
