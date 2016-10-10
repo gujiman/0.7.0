@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <style>
+        .monaco-editor .reference-zone-widget .preview .reference-decoration {
+            display: none;
+        }
+        
+        .monaco-editor .reference-zone-widget .preview .current-line + .reference-decoration {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <p>Right-click on 'hello2()' and select 'Go to Definition', 'Peek Definition' or 'Find All References'.</p>
+    <button id="hello1" type="button">hello1</button>
+    <button id="hello2" type="button">hello2</button>
+
+    <div id="container" style="width:800px;height:600px;border:1px solid grey"></div>
+    <script src="dev/vs/loader.js"></script>
+    <script>
+
+        require.config({
+            paths: {
+                'vs': 'dev/vs'
+            }
+        });
+
+        var model1;
+        var model2;
+
+        require(['vs/editor/editor.main'], function() {
+
+            var editor = monaco.editor.create(document.getElementById("container"),
+            {
+                folding: true
+            });
+
+            model1 = monaco.editor.createModel("function hello1() {\n\talert('111!');\n}\nhello1();\n\nhello2();", "javascript", "hello1.js");
+            model2 = monaco.editor.createModel("function hello2() {\n\talert('222!');\n}", "javascript", "hello2.js");
+
+            window.onload = function () {
+                document.getElementById("hello1").onclick = function() {
+                    editor.setModel(model1);
+                };
+                document.getElementById("hello2").onclick = function() {
+                    editor.setModel(model2);
+                };
+            };
+
+            editor.setModel(model1);
+
+        });
+    </script>
+</body>
+
+</html>
